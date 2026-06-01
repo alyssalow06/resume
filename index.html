@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Alyssa Low — Banking & Finance (FinTech)</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.2/html2pdf.bundle.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--red:#C8102E;--dark:#1e293b;--grey:#64748b;--light:#f8fafc;--bg:#ffffff;--card:#f8fafc;--text:#1e293b;--text2:#64748b;--border:#e2e8f0;--shadow:0 4px 20px rgba(0,0,0,0.08)}
@@ -49,6 +50,19 @@ body{font-family:'DM Sans',sans-serif;color:var(--text);background:var(--bg);lin
 .cta-em{background:var(--red);color:#fff;box-shadow:0 4px 12px rgba(200,16,46,0.3)}
 .cta-cv{background:var(--card);color:var(--text);border:2px solid var(--border);box-shadow:var(--shadow);transition:all 0.25s,background 0.3s,color 0.3s}
 .cta-cv:hover{border-color:var(--red);color:var(--red)}
+.cta-pdf{background:#1e293b;color:#fff;box-shadow:0 4px 12px rgba(30,41,59,0.3)}
+.dark .cta-pdf{background:#f1f5f9;color:#1e293b}
+
+@media print{
+  .scroll-bar,.dark-toggle,.float-wa,.cta-bar,.footer-cta,.no-print{display:none!important}
+  .hero::after{display:none}
+  .hero{padding:40px 24px 30px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .reveal,.reveal-l,.reveal-r{opacity:1!important;transform:none!important}
+  body{background:#fff;color:#1e293b}
+  .content{padding:20px 24px 0}
+  section{margin-bottom:20px;page-break-inside:avoid}
+  .exp-item{page-break-inside:avoid}
+}
 
 .content{max-width:700px;margin:0 auto;padding:40px 24px 60px}
 section{margin-bottom:40px}
@@ -145,6 +159,7 @@ section{margin-bottom:40px}
   <a href="https://wa.me/60169281909?text=Hi%20Alyssa%2C%20I%20viewed%20your%20resume%20and%20would%20like%20to%20connect." class="cta-btn cta-wa">&#128172; WhatsApp</a>
   <a href="mailto:alyssalow06@gmail.com?subject=Opportunity%20for%20Alyssa%20Low" class="cta-btn cta-em">&#9993; Email</a>
   <a href="https://bit.ly/AlyssaLow" target="_blank" class="cta-btn cta-cv">&#128196; E-CV, Statement & Transcript &#8594;</a>
+  <a href="#" onclick="exportPDF();return false;" class="cta-btn cta-pdf">&#128196; Download PDF</a>
 </div>
 
 <div class="content">
@@ -317,6 +332,57 @@ var obs=new IntersectionObserver(function(entries){
 document.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(function(el){obs.observe(el);});
 
 document.querySelectorAll('.skill-card').forEach(function(c,i){c.style.transitionDelay=(i*0.15)+'s';});
+
+function exportPDF(){
+  var btn=document.querySelector('.cta-pdf');
+  var oldText=btn.innerHTML;
+  btn.innerHTML='&#9203; Generating...';
+  btn.style.pointerEvents='none';
+
+  document.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(function(el){el.classList.add('vis');});
+
+  var hide=document.querySelectorAll('.cta-bar,.float-wa,.dark-toggle,.scroll-bar,.footer-cta');
+  hide.forEach(function(el){el.style.display='none';});
+
+  var hero=document.querySelector('.hero');
+  var savedHero=hero.outerHTML;
+  var photo=hero.querySelector('.hero-photo');
+  var photoSrc=photo?photo.src:'';
+
+  var plain='<div id="pdf-hero" style="background:#ffffff;color:#1e293b;padding:80px 24px 60px;">'
+    +'<div style="max-width:700px;margin:0 auto;display:flex;gap:30px;align-items:center;">'
+    +'<img src="'+photoSrc+'" style="width:130px;height:130px;border-radius:50%;object-fit:cover;border:4px solid rgba(200,16,46,0.5);flex-shrink:0;">'
+    +'<div>'
+    +'<h1 style="font-family:Playfair Display,serif;font-size:2.2rem;font-weight:700;margin-bottom:6px;color:#1e293b;">Alyssa Low Kye Yee</h1>'
+    +'<div style="color:#fff;font-size:1rem;font-weight:500;margin-bottom:10px;display:inline-block;padding:4px 16px;border-radius:20px;background:#C8102E;">Digital Innovation</div>'
+    +'<div style="font-size:0.85rem;color:#64748b;margin-bottom:4px;">&#9993; alyssalow06@gmail.com</div>'
+    +'<div style="font-size:0.85rem;color:#64748b;margin-bottom:4px;">&#128241; +60 16-928 1909 &nbsp;|&nbsp; &#128205; Kuala Lumpur</div>'
+    +'<div style="font-size:0.85rem;color:#64748b;">&#128279; linkedin.com/in/low-kye-yee-alyssa</div>'
+    +'</div></div></div>';
+
+  hero.outerHTML=plain;
+
+  var opt={
+    margin:[5,5,5,5],
+    filename:'Alyssa_Low_Resume.pdf',
+    image:{type:'jpeg',quality:0.98},
+    html2canvas:{scale:2,useCORS:true,scrollY:0,backgroundColor:'#ffffff'},
+    jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},
+    pagebreak:{mode:['avoid-all','css','legacy']}
+  };
+
+  setTimeout(function(){
+    html2pdf().set(opt).from(document.body).save().then(function(){
+      hide.forEach(function(el){el.style.display='';});
+      var pdfHero=document.getElementById('pdf-hero');
+      pdfHero.outerHTML=savedHero;
+      btn=document.querySelector('.cta-pdf');
+      btn.innerHTML=oldText;
+      btn.style.pointerEvents='';
+    });
+  },600);
+}
+
 </script>
 </body>
 </html>
