@@ -98,6 +98,16 @@ section{margin-bottom:40px}
 .portfolio-card .arrow{margin-left:auto;color:var(--red);font-size:1.3rem;flex-shrink:0;transition:transform 0.3s}
 .portfolio-card:hover .arrow{transform:translateX(4px)}
 
+.lens-dashboard-card{display:block;text-decoration:none;color:var(--text);background:linear-gradient(135deg,#0f172a 0%,#1e293b 60%,#334155 100%);border-radius:16px;padding:24px;margin-bottom:0;transition:all 0.3s;border:1px solid transparent;box-shadow:0 4px 20px rgba(0,0,0,0.15)}
+.lens-dashboard-card:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(200,16,46,0.18)}
+.lens-dashboard-inner{display:flex;align-items:center;gap:16px}
+.lens-dashboard-icon{width:52px;height:52px;background:var(--red);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;transition:transform 0.3s}
+.lens-dashboard-card:hover .lens-dashboard-icon{transform:rotate(-8deg) scale(1.1)}
+.lens-dashboard-text h4{font-size:1rem;font-weight:700;color:#fff;margin-bottom:4px}
+.lens-dashboard-text p{font-size:0.82rem;color:rgba(255,255,255,0.6);line-height:1.4}
+.lens-dashboard-card .arrow{margin-left:auto;color:var(--red);font-size:1.4rem;flex-shrink:0;transition:transform 0.3s}
+.lens-dashboard-card:hover .arrow{transform:translateX(4px)}
+
 .edu-item{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:6px;transition:all 0.2s}
 .edu-item:hover{padding-left:8px}
 .edu-item:last-child{border-bottom:none}
@@ -250,7 +260,17 @@ section{margin-bottom:40px}
 
 <section class="reveal">
   <div class="section-title">AI Projects</div>
-  <div class="portfolio-grid">
+  <a href="https://all-lens.vercel.app/" target="_blank" class="lens-dashboard-card">
+    <div class="lens-dashboard-inner">
+      <div class="lens-dashboard-icon">&#128270;</div>
+      <div class="lens-dashboard-text">
+        <h4>Lens &mdash; AI Analysis Dashboard</h4>
+        <p>AI-powered analysis in one place. Turn dense documents into clear deal analysis.</p>
+      </div>
+      <span class="arrow">&#8594;</span>
+    </div>
+  </a>
+  <div class="portfolio-grid" style="margin-top:12px;">
     <a href="https://pitchlens-summary.vercel.app/" target="_blank" class="portfolio-card">
       <div class="portfolio-icon">&#129504;</div>
       <div><h4>PitchLens</h4><p>Upload a pitch deck and instantly see what&#8217;s covered, what&#8217;s missing, and what investors will question</p></div>
@@ -259,6 +279,11 @@ section{margin-bottom:40px}
     <a href="https://equitylens-summary.vercel.app/" target="_blank" class="portfolio-card">
       <div class="portfolio-icon">&#128200;</div>
       <div><h4>EquityLens</h4><p>Upload any Bursa Malaysia quarterly report and get an instant AI-generated financial dashboard</p></div>
+      <span class="arrow">&#8594;</span>
+    </a>
+    <a href="https://insurtech-cover-lens.vercel.app/" target="_blank" class="portfolio-card">
+      <div class="portfolio-icon">&#128737;</div>
+      <div><h4>CoverLens</h4><p>Interactive partner pitch exploring how gig platforms and insurtechs create value together</p></div>
       <span class="arrow">&#8594;</span>
     </a>
   </div>
