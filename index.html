@@ -383,7 +383,11 @@ function exportPDF(){
   document.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(function(el){el.classList.add('vis');});
 
   var hide=document.querySelectorAll('.cta-bar,.float-wa,.dark-toggle,.scroll-bar,.footer-cta');
-  hide.forEach(function(el){el.style.setProperty('display','none','important');el.style.setProperty('height','0','important');el.style.setProperty('overflow','hidden','important');el.style.setProperty('margin','0','important');el.style.setProperty('padding','0','important');});
+  hide.forEach(function(el){el.style.cssText='display:none!important;height:0!important;overflow:hidden!important;margin:0!important;padding:0!important;max-height:0!important;'});
+
+  var contentDiv=document.querySelector('.content');
+  var savedContentPad=contentDiv.style.paddingBottom;
+  contentDiv.style.paddingBottom='10px';
 
   var hero=document.querySelector('.hero');
   var savedHero=hero.outerHTML;
@@ -414,7 +418,8 @@ function exportPDF(){
 
   setTimeout(function(){
     html2pdf().set(opt).from(document.body).save().then(function(){
-      hide.forEach(function(el){el.style.display='';el.style.height='';el.style.overflow='';el.style.margin='';el.style.padding='';});
+      hide.forEach(function(el){el.style.cssText='';});
+      contentDiv.style.paddingBottom=savedContentPad;
       var pdfHero=document.getElementById('pdf-hero');
       pdfHero.outerHTML=savedHero;
       btn=document.querySelector('.cta-pdf');
